@@ -1,21 +1,18 @@
+package com.sudoku.core;
+
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 
 /**
- * Created by nickc on 3/12/16.
+ * Created by Nicolai Chebanov on 3/12/16.
  */
+@Component
 public class Sudoku {
 
-//
-//    private int[][] board = {{0, 6, 0, 1, 0, 4, 0, 5, 0},
-//                             {0, 0, 8, 3, 0, 5, 6, 0, 0},
-//                             {2, 0, 0, 0, 0, 0, 0, 0, 1},
-//                             {8, 0, 0, 4, 0, 7, 0, 0, 6},
-//                             {0, 0, 6, 0, 0, 0, 3, 0, 0},
-//                             {7, 0, 0, 9, 0, 1, 0, 0, 4},
-//                             {5, 0, 0, 0, 0, 0, 0, 0, 2},
-//                             {0, 0, 7, 2, 0, 6, 9, 0, 0},
-//                             {0, 4, 0, 5, 0, 8, 0, 7, 0}};
-
+    /*
+     * Stores sudoku board values.
+     */
     private int[][] board = {
             {5, 3, 4, 6, 7, 8, 9, 1, 2},
             {6, 7, 2, 1, 9, 5, 3, 4, 8},
@@ -23,24 +20,18 @@ public class Sudoku {
 
             {8, 5, 9, 7, 6, 1, 4, 2, 3},
             {4, 2, 6, 8, 5, 3, 7, 9, 1},
-            {7, 1, 3, 9, 2, 4, 8, 5, 6},
+            {7, 1, 3, 9, 2, 0, 8, 5, 6},
 
             {9, 6, 1, 5, 3, 7, 2, 8, 4},
             {2, 8, 7, 4, 1, 9, 6, 3, 5},
             {3, 4, 5, 2, 8, 6, 1, 7, 9}
         };
 
-    public static void main(String[] args) {
-        Sudoku sudoku = new Sudoku();
-        System.out.println("Checking move = " +sudoku.checkMove(5,5,4));
-        System.out.println("Checking board = " + sudoku.checkSudokuStatus());
-    }
-
     /**
      * Checks that sudoku is resolved or not
      * @return true if solution found, else false
      */
-    private boolean checkSudokuStatus() {
+    public boolean checkSudokuStatus() {
         for (int i = 0; i < 9; i++) {
 
             int[] row = new int[9];
@@ -73,6 +64,48 @@ public class Sudoku {
         return false;
     }
 
+    /**
+     * Validates that all values is in right range
+     * @param x - row on sudoku board
+     * @param y - column on sudoku board
+     * @param value - value to set
+     * @return true if in range, else false
+     */
+    private boolean checkRange(int x, int y, int value){
+
+        boolean result = true;
+
+        if(x>8 || x<0){
+         result = false;
+        }
+        if(y>8 || y<0){
+            result = false;
+        }
+        if(value>9 || value<1){
+            result = false;
+        }
+
+        return result;
+    }
+
+    /**
+     * Check that in params is valid, and assigns value to cell
+     * @param row - row on sudoku board
+     * @param column - column on sudoku board
+     * @param value - value to set
+     * @return - true if successfully set the value, else false
+     */
+    public Boolean setCellValue(int row, int column, Integer value) {
+
+
+        if(!checkRange(row, column, value)){
+            return false;
+        }
+
+        board[row][column] = value;
+
+        return true;
+    }
 
     /**
      * Checks if move on board is right and doesn't violates sudoku rules
@@ -81,17 +114,7 @@ public class Sudoku {
      * @param value - value to check
      * @return - true if move is valid , else false
      */
-    private boolean checkMove(int x, int y, int value){
-
-        if(x>8 && x<0){
-            return false;
-        }
-        if(y>8 && y<0){
-            return false;
-        }
-        if(value>8 && value<0){
-            return false;
-        }
+    public boolean checkMove(int x, int y, int value){
 
         int[] column = new int[9];
         int[] square = new int[9];
@@ -110,7 +133,7 @@ public class Sudoku {
     }
 
     /**
-     * Checks that value occures in array
+     * Check that value occures in array
      * @param array - array to check
      * @param value - value to check
      * @return - true if occures, else false
@@ -129,11 +152,12 @@ public class Sudoku {
         return result;
     }
 
-    public int[][] getBoard() {
+    public int [][] getBoard() {
         return board;
     }
 
     public void setBoard(int[][] board) {
         this.board = board;
     }
+
 }
