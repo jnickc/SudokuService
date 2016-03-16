@@ -3,10 +3,9 @@ package com.sudoku.web;
 import com.sudoku.core.Sudoku;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 
 /**
@@ -33,8 +32,9 @@ public class SudokuController {
     /**
      * RESTful sercive to init sudoku board
      */
-    @RequestMapping("/initBoard")
-    public void getBoard(@RequestParam(value="board", required = true) int[][] board) {
+    @RequestMapping(value = "/initBoard", method = RequestMethod.POST)
+    public void setBoard(@RequestParam(value="board", required = true) int[][] board) {
+        System.out.println("Board size = " + board.length);
         sudokuBoard.setBoard(board);
     }
 

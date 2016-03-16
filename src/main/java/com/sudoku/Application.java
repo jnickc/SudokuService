@@ -3,6 +3,9 @@ package com.sudoku;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Main class starts application
+ */
 @SpringBootApplication
 public class Application {
 
